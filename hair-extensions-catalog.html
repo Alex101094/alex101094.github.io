@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Remi Hair Extensions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FCF6F3;
+    --surface:#FFFFFF;
+    --ink:#4A3940;
+    --ink-light:#A4919A;
+    --blush:#F6CDD6;
+    --lavender:#E4D5EF;
+    --sage:#D7E6DA;
+    --line:#F1E2E6;
+    --radius:24px;
+    --radius-sm:14px;
+    --shadow:0 12px 30px -18px rgba(74,57,64,0.35);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Quicksand',sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:'Fraunces',serif; margin:0; font-weight:600; }
+
+  /* ---- Page transitions ---- */
+  .page{ display:none; min-height:100vh; }
+  .page.active{ display:block; animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+
+  /* ==============================
+     HOME PAGE
+  ============================== */
+  .home-hero{
+    padding:64px 24px 40px;
+    text-align:center;
+    overflow:hidden;
+    position:relative;
+  }
+  .home-hero-inner{ max-width:560px; margin:0 auto; position:relative; z-index:2; }
+  .eyebrow{
+    font-size:12px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--ink-light); font-weight:600; margin:0 0 12px;
+  }
+  .home-hero h1{
+    font-size:clamp(38px,7vw,64px); font-style:italic;
+    line-height:1.05; margin-bottom:14px;
+  }
+  .home-hero p{
+    font-size:16px; color:#7C6A71; line-height:1.6;
+    max-width:400px; margin:0 auto;
+  }
+  .wave-divider{ display:block; width:100%; height:70px; margin-top:32px; }
+  @media(prefers-reduced-motion:no-preference){
+    .wave-divider .s1{ animation:drift 22s ease-in-out infinite alternate; }
+    .wave-divider .s2{ animation:drift 28s ease-in-out infinite alternate-reverse; }
+    .wave-divider .s3{ animation:drift 34s ease-in-out infinite alternate; }
+  }
+  @keyframes drift{ from{transform:translateX(-2%)} to{transform:translateX(2%)} }
+
+  /* Color group grid on home */
+  .home-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    padding:8px 20px 64px;
+    max-width:700px;
+    margin:0 auto;
+  }
+
+  .color-card{
+    background:var(--surface);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+    border:none;
+    text-align:left;
+    width:100%;
+    padding:0;
+  }
+  .color-card:hover{ transform:translateY(-4px); box-shadow:0 18px 36px -18px rgba(74,57,64,0.45); }
+
+  .color-card-banner{
+    width:100%; height:110px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .color-card-swatch{
+    width:64px; height:64px; border-radius:50%;
+    border:4px solid rgba(255,255,255,0.6);
+    box-shadow:0 4px 16px rgba(0,0,0,0.15);
+  }
+  .color-card-body{ padding:14px 16px 18px; }
+  .color-card-body h3{
+    font-size:16px; font-weight:700; margin-bottom:4px;
+  }
+  .color-card-body p{
+    font-size:13px; color:var(--ink-light); margin:0; line-height:1.4;
+  }
+  .color-card-arrow{
+    display:flex; align-items:center; justify-content:flex-end;
+    padding:0 16px 14px; font-size:18px; color:var(--ink-light);
+  }
+
+  /* ==============================
+     COLOR DETAIL PAGE
+  ============================== */
+  .detail-header{
+    position:sticky; top:0; z-index:10;
+    background:rgba(252,246,243,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:0 16px;
+  }
+  .detail-header-inner{
+    max-width:700px; margin:0 auto;
+    display:flex; align-items:center; gap:14px;
+    height:58px;
+  }
+  .back-btn{
+    display:flex; align-items:center; gap:6px;
+    background:none; border:none; cursor:pointer;
+    font-family:'Quicksand',sans-serif; font-weight:700;
+    font-size:14px; color:var(--ink); padding:8px 0;
+    flex:0 0 auto;
+  }
+  .back-btn svg{ flex:0 0 auto; }
+
+  .detail-title{
+    font-family:'Fraunces',serif;
+    font-size:20px; font-style:italic; font-weight:600;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+
+  /* Sub-color nav inside detail page */
+  .sub-nav{
+    display:flex; gap:8px; overflow-x:auto;
+    padding:12px 20px;
+    background:rgba(252,246,243,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    scrollbar-width:thin;
+    position:sticky; top:58px; z-index:9;
+  }
+  .sub-nav::-webkit-scrollbar{ height:5px; }
+  .sub-nav::-webkit-scrollbar-thumb{ background:var(--blush); border-radius:10px; }
+
+  .sub-pill{
+    flex:0 0 auto;
+    display:flex; align-items:center; gap:7px;
+    padding:7px 14px 7px 7px;
+    border-radius:999px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink);
+    font-family:'Quicksand',sans-serif; font-weight:600; font-size:13px;
+    cursor:pointer; white-space:nowrap;
+    transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .sub-pill:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+  .sub-pill.active{ border-color:transparent; box-shadow:var(--shadow); }
+  .sub-pill-swatch{
+    width:20px; height:20px; border-radius:50%; flex:0 0 auto;
+    border:2px solid var(--surface); outline:1px solid var(--line);
+  }
+
+  /* Sub-group sections */
+  .detail-body{ padding:32px 20px 64px; max-width:700px; margin:0 auto; }
+
+  .sub-group{ margin-bottom:48px; scroll-margin-top:120px; }
+  .sub-group:last-child{ margin-bottom:0; }
+
+  .sub-group-head{
+    display:flex; align-items:center; gap:12px; margin-bottom:20px;
+  }
+  .sub-group-head h3{ font-size:18px; font-weight:600; font-style:italic; }
+  .sub-divider{ flex:1; height:1px; background:var(--line); }
+
+  .photo-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:14px;
+  }
+  .photo-card{
+    background:var(--surface); border-radius:var(--radius);
+    overflow:hidden; box-shadow:var(--shadow);
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .photo-card:hover{ transform:translateY(-4px); box-shadow:0 18px 36px -18px rgba(74,57,64,0.45); }
+
+  /* Carousel */
+  .carousel{
+    position:relative; overflow:hidden;
+  }
+  .carousel-track{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .carousel-track::-webkit-scrollbar{ display:none; }
+  .carousel-slide{
+    flex:0 0 100%;
+    scroll-snap-align:start;
+  }
+  .photo-placeholder{
+    width:100%; aspect-ratio:4/5;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    gap:10px; color:#fff; text-align:center; padding:16px;
+  }
+  .photo-placeholder img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .placeholder-icon{ width:32px; height:32px; opacity:0.85; }
+  .placeholder-text{
+    font-size:11px; letter-spacing:0.06em;
+    text-transform:uppercase; font-weight:600; opacity:0.8;
+  }
+
+  /* Dot indicators */
+  .carousel-dots{
+    display:flex; justify-content:center; gap:5px;
+    padding:8px 0 4px;
+  }
+  .carousel-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--line); border:none; padding:0; cursor:pointer;
+    transition:background 0.2s ease, transform 0.2s ease;
+    flex:0 0 auto;
+  }
+  .carousel-dot.active{
+    background:var(--ink-light); transform:scale(1.3);
+  }
+  .photo-card-info{ padding:10px 12px 14px; text-align:center; }
+  .photo-card-info .photo-label{ margin:0 0 6px; font-size:13px; color:var(--ink-light); font-weight:600; }
+  .photo-card-meta{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:6px; padding-top:6px; border-top:1px solid var(--line);
+  }
+  .photo-length{
+    font-size:12px; font-weight:600; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--ink-light);
+  }
+  .photo-price{
+    font-family:'Fraunces',serif; font-size:18px; font-weight:600; color:var(--ink);
+  }
+
+  /* ==============================
+     FOOTER
+  ============================== */
+  .site-footer{
+    text-align:center; padding:48px 24px 64px;
+    border-top:1px solid var(--line);
+  }
+  .site-footer h2{ font-style:italic; font-size:24px; margin-bottom:10px; }
+  .site-footer p{ color:#8A7780; font-size:15px; max-width:380px; margin:0 auto; line-height:1.6; }
+
+  /* ==============================
+     MOBILE
+  ============================== */
+  @media(max-width:480px){
+    .home-hero{ padding:48px 16px 28px; }
+    .home-grid{ padding:8px 16px 48px; gap:14px; }
+    .color-card-banner{ height:90px; }
+    .color-card-swatch{ width:52px; height:52px; }
+    .color-card-body h3{ font-size:14px; }
+    .color-card-body p{ font-size:12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================== HOME PAGE ======================== -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="home-hero-inner">
+      <p class="eyebrow">Yeka Collection</p>
+      <h1>Remi Hair Extensions</h1>
+      <p>Browse every shade currently in stock. Tap a color to explore the full collection.</p>
+    </div>
+    <svg class="wave-divider" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
+      <path class="s1" fill="#F6CDD6" opacity="0.55" d="M0,40 C 240,75 480,5 720,40 C 960,75 1200,5 1440,40 L1440,70 L0,70 Z"/>
+      <path class="s2" fill="#E4D5EF" opacity="0.5"  d="M0,50 C 240,20 480,70 720,45 C 960,20 1200,68 1440,45 L1440,70 L0,70 Z"/>
+      <path class="s3" fill="#D7E6DA" opacity="0.45" d="M0,58 C 240,38 480,65 720,54 C 960,43 1200,65 1440,54 L1440,70 L0,70 Z"/>
+    </svg>
+  </div>
+  <div class="home-grid" id="homeGrid"></div>
+  <footer class="site-footer">
+    <h2>What is Remi Hair</h2>
+    <p>Hair</p>
+    <h2>Where is Remi Hair from?</h2>
+    <p>Russia or something</p>
+    <h2>How to care for Remi Hair</h2>
+    <p>Regular washing and conditioning will keep your Remi Hair looking beautiful.</p>
+  </footer>
+</div>
+
+<!-- ======================== DETAIL PAGE ======================== -->
+<div class="page" id="page-detail">
+  <header class="detail-header">
+    <div class="detail-header-inner">
+      <button class="back-btn" id="backBtn" aria-label="Back to all colors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        All Colors
+      </button>
+      <span class="detail-title" id="detailTitle"></span>
+    </div>
+  </header>
+  <nav class="sub-nav" id="subNav" aria-label="Jump to sub-color"></nav>
+  <div class="detail-body" id="detailBody"></div>
+</div>
+
+<script>
+/* =====================================================================
+   INVENTORY
+   Each entry is a main color. "subColors" are the sub-sections inside.
+   Rename subColors or add more as needed.
+===================================================================== */
+const INVENTORY = [
+  {
+    name: "Darks",
+    swatch: "#1F1A1C",
+    bannerBg: "#2D2428",
+    description: "Deep, true black with a soft natural shine.",
+    subColors: [
+      { name: "Color 1", color: "#1F1A1C", photos: [
+        { length: '12" - 16"', price: 900 }, { length: '18" - 22"', price: 1350 },
+        { length: '24" - 28"', price: 1650 }, { length: '30" - 35"', price: 2100 }
+      ]},
+      { name: "Color 2", color: "#2E2A2B", photos: [
+        { length: '12" - 16"', price: 900 }, { length: '18" - 22"', price: 1350 },
+        { length: '24" - 28"', price: 1650 }, { length: '30" - 35"', price: 2100 }
+      ]},
+      { name: "Color 3", color: "#3A3233", photos: [
+        { length: '12" - 16"', price: 900 }, { length: '18" - 22"', price: 1350 },
+        { length: '24" - 28"', price: 1650 }, { length: '30" - 35"', price: 2100 }
+      ]},
+      { name: "Color 4", color: "#4A4142", photos: [
+        { length: '12" - 16"', price: 900 }, { length: '18" - 22"', price: 1350 },
+        { length: '24" - 28"', price: 1650 }, { length: '30" - 35"', price: 2100 }
+      ]}
+    ]
+  },
+  {
+    name: "Browns",
+    swatch: "#4B342A",
+    bannerBg: "#5C4035",
+    description: "A warm, rich brown that blends beautifully with most natural shades.",
+    subColors: [
+      { name: "Color 1", color: "#4B342A", photos: [
+        { length: '14"', price: 75 }, { length: '18"', price: 95 },
+        { length: '22"', price: 125 }, { length: '26"', price: 155 }
+      ]},
+      { name: "Color 2", color: "#5C4035", photos: [
+        { length: '14"', price: 75 }, { length: '18"', price: 95 },
+        { length: '22"', price: 125 }, { length: '26"', price: 155 }
+      ]},
+      { name: "Color 3", color: "#6E4E40", photos: [
+        { length: '14"', price: 75 }, { length: '18"', price: 95 },
+        { length: '22"', price: 125 }, { length: '26"', price: 155 }
+      ]},
+      { name: "Color 4", color: "#7E5E50", photos: [
+        { length: '14"', price: 75 }, { length: '18"', price: 95 },
+        { length: '22"', price: 125 }, { length: '26"', price: 155 }
+      ]}
+    ]
+  },
+  {
+    name: "Balayages",
+    swatch: "linear-gradient(135deg,#8B5A2E,#D9AF7E)",
+    bannerBg: "#B07840",
+    description: "A soft, sun-kissed blend from deep root to golden tips.",
+    subColors: [
+      { name: "Color 1", color: "#8B5A2E", photos: [
+        { length: '14"', price: 85 }, { length: '18"', price: 105 },
+        { length: '22"', price: 135 }, { length: '26"', price: 165 }
+      ]},
+      { name: "Color 2", color: "#A06A38", photos: [
+        { length: '14"', price: 85 }, { length: '18"', price: 105 },
+        { length: '22"', price: 135 }, { length: '26"', price: 165 }
+      ]},
+      { name: "Color 3", color: "#C08848", photos: [
+        { length: '14"', price: 85 }, { length: '18"', price: 105 },
+        { length: '22"', price: 135 }, { length: '26"', price: 165 }
+      ]},
+      { name: "Color 4", color: "#D9AF7E", photos: [
+        { length: '14"', price: 85 }, { length: '18"', price: 105 },
+        { length: '22"', price: 135 }, { length: '26"', price: 165 }
+      ]}
+    ]
+  },
+  {
+    name: "Blondes",
+    swatch: "#CC9A4E",
+    bannerBg: "#D4A855",
+    description: "A warm golden blonde with plenty of natural-looking dimension.",
+    subColors: [
+      { name: "Color 1", color: "#B8823A", photos: [
+        { length: '14"', price: 80 }, { length: '18"', price: 100 },
+        { length: '22"', price: 130 }, { length: '26"', price: 160 }
+      ]},
+      { name: "Color 2", color: "#CC9A4E", photos: [
+        { length: '14"', price: 80 }, { length: '18"', price: 100 },
+        { length: '22"', price: 130 }, { length: '26"', price: 160 }
+      ]},
+      { name: "Color 3", color: "#D9AE6A", photos: [
+        { length: '14"', price: 80 }, { length: '18"', price: 100 },
+        { length: '22"', price: 130 }, { length: '26"', price: 160 }
+      ]},
+      { name: "Color 4", color: "#E8C98A", photos: [
+        { length: '14"', price: 80 }, { length: '18"', price: 100 },
+        { length: '22"', price: 130 }, { length: '26"', price: 160 }
+      ]}
+    ]
+  },
+  {
+    name: "Highlights",
+    swatch: "linear-gradient(135deg,#ECE1CB,#FBF7EE)",
+    bannerBg: "#D9CEB8",
+    description: "Create overall brightness and texture in the hair.",
+    subColors: [
+      { name: "Color 1", color: "#C8BEA8", photos: [
+        { length: '14"', price: 90 }, { length: '18"', price: 110 },
+        { length: '22"', price: 140 }, { length: '26"', price: 170 }
+      ]},
+      { name: "Color 2", color: "#D9CEB8", photos: [
+        { length: '14"', price: 90 }, { length: '18"', price: 110 },
+        { length: '22"', price: 140 }, { length: '26"', price: 170 }
+      ]},
+      { name: "Color 3", color: "#EAE0CC", photos: [
+        { length: '14"', price: 90 }, { length: '18"', price: 110 },
+        { length: '22"', price: 140 }, { length: '26"', price: 170 }
+      ]},
+      { name: "Color 4", color: "#F5F0E4", photos: [
+        { length: '14"', price: 90 }, { length: '18"', price: 110 },
+        { length: '22"', price: 140 }, { length: '26"', price: 170 }
+      ]}
+    ]
+  },
+  {
+    name: "Reds",
+    swatch: "linear-gradient(135deg,#C9785A,#E0A98F)",
+    bannerBg: "#C97B5C",
+    description: "A playful, warm copper with rosy undertones.",
+    subColors: [
+      { name: "Color 1", color: "#B86248", photos: [
+        { length: '12" - 16"', price: 900 }, { length: '18" - 22"', price: 1350 },
+        { length: '24" - 28"', price: 1650 }, { length: '30" - 35"', price: 2100 }
+      ]},
+      { name: "Color 2", color: "#C9785A", photos: [
+        { length: '14"', price: 90 }, { length: '18"', price: 110 },
+        { length: '22"', price: 140 }, { length: '26"', price: 170 }
+      ]},
+      { name: "Color 3", color: "#D99070", photos: [
+        { length: '14"', price: 90 }, { length: '18"', price: 110 },
+        { length: '22"', price: 140 }, { length: '26"', price: 170 }
+      ]},
+      { name: "Color 4", color: "#E0A98F", photos: [
+        { length: '14"', price: 90 }, { length: '18"', price: 110 },
+        { length: '22"', price: 140 }, { length: '26"', price: 170 }
+      ]}
+    ]
+  }
+];
+
+/* ===================== Helpers ===================== */
+const placeholderIcon = `
+  <svg class="placeholder-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M4 30 C 14 14,22 42,32 24 C 38 12,42 28,44 22" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9"/>
+    <path d="M4 36 C 14 22,24 46,34 30 C 40 20,44 32,44 28" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+  </svg>`;
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+/* ===================== Build home grid ===================== */
+const homeGrid = document.getElementById('homeGrid');
+
+INVENTORY.forEach((group, index) => {
+  const card = document.createElement('button');
+  card.className = 'color-card';
+  card.setAttribute('aria-label', `View ${group.name}`);
+  card.innerHTML = `
+    <div class="color-card-banner" style="background:${group.bannerBg}">
+    </div>
+    <div class="color-card-body">
+      <h3>${group.name}</h3>
+      <p>${group.description}</p>
+    </div>
+    <div class="color-card-arrow">→</div>
+  `;
+  card.addEventListener('click', () => openDetail(index));
+  homeGrid.appendChild(card);
+});
+
+/* ===================== Build & open detail page ===================== */
+function openDetail(index) {
+  const group = INVENTORY[index];
+  document.getElementById('detailTitle').textContent = group.name;
+
+  // Build sub-nav
+  const subNav = document.getElementById('subNav');
+  subNav.innerHTML = '';
+  group.subColors.forEach((subColor, i) => {
+    const subId = `sub-${i}`;
+    const pill = document.createElement('button');
+    pill.className = 'sub-pill' + (i === 0 ? ' active' : '');
+    pill.innerHTML = `<span class="sub-pill-swatch" style="background:${subColor.color}"></span>${subColor.name}`;
+    pill.addEventListener('click', () => {
+      const target = document.getElementById(subId);
+      if (target) {
+        const offset = document.querySelector('.detail-header').offsetHeight
+                     + document.querySelector('.sub-nav').offsetHeight + 16;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+    subNav.appendChild(pill);
+  });
+
+  // Build detail body
+  const detailBody = document.getElementById('detailBody');
+  detailBody.innerHTML = '';
+
+  group.subColors.forEach((subColor, i) => {
+    const subGroup = document.createElement('div');
+    subGroup.className = 'sub-group';
+    subGroup.id = `sub-${i}`;
+
+    const photos = subColor.photos.map((photo, j) => {
+      // Each photo entry can have an `images` array; fall back to one placeholder
+      const slides = (photo.images && photo.images.length > 0)
+        ? photo.images.map(src => `
+            <div class="carousel-slide">
+              <div class="photo-placeholder" style="background:${subColor.color}">
+                <img src="${src}" alt="${subColor.name} ${photo.length}">
+              </div>
+            </div>`)
+        : [`<div class="carousel-slide">
+              <div class="photo-placeholder" style="background:${subColor.color}">
+                ${placeholderIcon}
+                <span class="placeholder-text">Photo coming soon</span>
+              </div>
+            </div>`];
+
+      const dots = slides.length > 1
+        ? `<div class="carousel-dots">${slides.map((_, k) =>
+            `<button class="carousel-dot${k === 0 ? ' active' : ''}" aria-label="Slide ${k+1}"></button>`
+          ).join('')}</div>`
+        : '';
+
+      return `
+        <div class="photo-card">
+          <div class="carousel">
+            <div class="carousel-track">${slides.join('')}</div>
+            ${dots}
+          </div>
+          <div class="photo-card-info">
+            <p class="photo-label">Photo ${j + 1}</p>
+            <div class="photo-card-meta">
+              <span class="photo-length">${photo.length}</span>
+              <span class="photo-price">$${photo.price}</span>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    subGroup.innerHTML = `
+      <div class="sub-group-head">
+        <h3>${subColor.name}</h3>
+        <div class="sub-divider"></div>
+      </div>
+      <div class="photo-grid">${photos}</div>
+    `;
+    detailBody.appendChild(subGroup);
+  });
+
+  // Wire up carousel dots
+  detailBody.querySelectorAll('.carousel').forEach(carousel => {
+    const track = carousel.querySelector('.carousel-track');
+    const dots = carousel.querySelectorAll('.carousel-dot');
+    if (!dots.length) return;
+    track.addEventListener('scroll', () => {
+      const idx = Math.round(track.scrollLeft / track.clientWidth);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }, { passive: true });
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+      });
+    });
+  });
+  const subSections = Array.from(detailBody.querySelectorAll('.sub-group'));
+  const pills = Array.from(subNav.querySelectorAll('.sub-pill'));
+
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        pills.forEach(p => p.classList.remove('active'));
+        const idx = subSections.indexOf(entry.target);
+        if (pills[idx]) pills[idx].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  subSections.forEach(s => spy.observe(s));
+
+  showPage('page-detail');
+}
+
+/* ===================== Back button ===================== */
+document.getElementById('backBtn').addEventListener('click', () => {
+  showPage('page-home');
+});
+</script>
+</body>
+</html>
